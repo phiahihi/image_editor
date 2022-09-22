@@ -1,4 +1,8 @@
 # image_editor
 
-### Features
+### How to use
+
+ImageScreen(
+          image: image,
+        ),
 
