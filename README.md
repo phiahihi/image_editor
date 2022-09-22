@@ -6,3 +6,6 @@ ImageScreen(
           image: image,
         ),
 
+ <?php
+        echo "Hello world!";
+    ?>
