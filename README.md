@@ -2,10 +2,9 @@
 
 ### How to use
 
+// Add File image
+
 ImageScreen(
           image: image,
         ),
 
- <?php
-        echo "Hello world!";
-    ?>
