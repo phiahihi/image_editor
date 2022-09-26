@@ -24,16 +24,25 @@ Future selectImage() async {
 // Navigate ImageScreen
 ```
 TextButton(
-            onPressed: () async {
-              await selectImage().then((value) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ImageScreen(
-                        image: image,
-                      ),
-                    ),
-                  ));
-            },
-            child: const Text("pick image"),
-          ),
+  onPressed: () {
+   selectImage().then(
+    (value) => Navigator.push(
+     context,
+      MaterialPageRoute(
+       builder: (context) => ImageScreen(
+       put your file here
+        image: image,
+             ),
+           ),
+        ),
+     );
+   },
+   child: const Text("pick image"),
+),
  ```
+ ### Used packages include:
+ 
+screenshot: ^1.2.3
+photo_view: ^0.14.0
+image_picker: ^0.8.5+3
+image_cropper: ^3.0.0
