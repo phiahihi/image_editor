@@ -16,10 +16,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final ImagePicker _picker = ImagePicker();
-  late File image = File('');
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(title: 'Welcome to Flutter', home: HomeScreen());
+  }
+}
 
-  void selectImage() async {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    super.key,
+  });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final ImagePicker _picker = ImagePicker();
+
+  File image = File('');
+
+  Future selectImage() async {
     final XFile? pickedFile = await _picker.pickImage(
         source: ImageSource
             .gallery); //This opens the gallery and lets the user pick the image
@@ -29,23 +46,43 @@ class _MyAppState extends State<MyApp> {
     //Checks if the user did actually pick something
 
     setState(() {
-      image = (File(pickedFile.path));
-    }); //This is the image the user picked
-    print(image);
+      image = File(pickedFile.path);
+    });
+    //This is the image the user picked
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Welcome to Flutter'),
-        ),
-        body: ImageScreen(
-          image: image,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Welcome to Flutter'),
+      ),
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () async {
+              print(image);
+              await selectImage();
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageScreen(
+                    image: image,
+                  ),
+                ),
+              );
+            },
+            child: const Text("pick image"),
+          ),
+        ],
       ),
     );
   }
 }
+
+
+// how to use
+// ImageEditor.navigate(yourImage, onComplete: (image) {
+// // do your handler here
+// })
