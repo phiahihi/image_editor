@@ -43,6 +43,9 @@ TextButton(
  ### Used packages include:
  
 screenshot: ^1.2.3
+
 photo_view: ^0.14.0
+
 image_picker: ^0.8.5+3
+
 image_cropper: ^3.0.0
