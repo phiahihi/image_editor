@@ -2,7 +2,10 @@
 
 ### How to use
 
-[](c:/Users/quang/Downloads/121001352417465347.mp4)
+// Example
+
+https://user-images.githubusercontent.com/89730025/192221098-c1703e41-09d7-41a5-baf5-992920131c07.mp4
+
 
 // Select image
 ```
