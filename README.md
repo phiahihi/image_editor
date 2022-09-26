@@ -2,6 +2,8 @@
 
 ### How to use
 
+[](c:/Users/quang/Downloads/121001352417465347.mp4)
+
 // Select image
 ```
 Future selectImage() async {

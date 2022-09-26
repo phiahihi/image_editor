@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -17,10 +15,9 @@ class ImageScreen extends StatefulWidget {
 }
 
 class _ImageScreenState extends State<ImageScreen> {
-  final ImagePicker _picker = ImagePicker();
   bool writeText = false;
   bool boldText = false;
-  TextEditingController _text = TextEditingController();
+  final TextEditingController _text = TextEditingController();
   ScreenshotController screenshotController = ScreenshotController();
   List<String> listFont = [
     'Avenir',
@@ -34,11 +31,7 @@ class _ImageScreenState extends State<ImageScreen> {
 
   bool turnOffAllBtn = false;
   double angle = 0.0;
-  double rotate = 0.0;
-  double xOffset = 0;
-  double yOffset = 0;
 
-  Offset offset = Offset.zero;
   bool hideText = false;
   Offset _offset = Offset.zero;
 
@@ -49,19 +42,12 @@ class _ImageScreenState extends State<ImageScreen> {
 
   late double _previousZoom;
   double _zoom = 1.0;
-  double finalAngle = 0.0;
-  double finalAngle2 = 0.0;
-
-  double oldAngle = 0.0;
-  double upsetAngle = 0.0;
 
   void _handleScaleStart(ScaleStartDetails details) {
     setState(() {
       _startingFocalPoint = details.focalPoint;
       _previousOffset = _offset;
       _previousZoom = _zoom;
-      print('focalPoint ${details.focalPoint}');
-      print('local ${details.localFocalPoint}');
     });
   }
 
@@ -73,7 +59,6 @@ class _ImageScreenState extends State<ImageScreen> {
       final Offset normalizedOffset =
           (_startingFocalPoint - _previousOffset) / _previousZoom;
       _offset = details.focalPoint - normalizedOffset * _zoom;
-      _offset.dy;
 
       if (details.pointerCount == 2) {
         setState(() {
@@ -142,24 +127,26 @@ class _ImageScreenState extends State<ImageScreen> {
           ),
           title: const Text("Captured widget screenshot"),
         ),
-        body: Center(
-            child: capturedImage != null
-                ? Image.memory(capturedImage)
-                : Container()),
+        body: capturedImage.isNotEmpty
+            ? Center(
+                child: Image.memory(
+                capturedImage,
+                width: MediaQuery.of(context).size.width,
+              ))
+            : Container(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    print('widget: ${widget.image}');
     return Scaffold(
       body: SafeArea(
         child: Screenshot(
           controller: screenshotController,
-          child: Center(
-            child: widget.image != null
-                ? Stack(children: [
+          child: widget.image != null
+              ? Stack(
+                  children: [
                     PhotoView(
                       imageProvider: FileImage(widget.image!),
                       minScale: PhotoViewComputedScale.contained * 0.8,
@@ -307,7 +294,6 @@ class _ImageScreenState extends State<ImageScreen> {
                             setState(() {
                               writeText = !writeText;
                             });
-                            print(writeText);
                           },
                         ),
                       ),
@@ -359,9 +345,9 @@ class _ImageScreenState extends State<ImageScreen> {
                               ),
                             ],
                           ))
-                  ])
-                : null,
-          ),
+                  ],
+                )
+              : null,
         ),
       ),
     );

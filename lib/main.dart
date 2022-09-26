@@ -60,18 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           TextButton(
-            onPressed: () async {
-              print(image);
-              await selectImage();
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ImageScreen(
-                    image: image,
-                  ),
-                ),
-              );
+            onPressed: () {
+              selectImage().then((value) => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ImageScreen(
+                        image: image,
+                      ),
+                    ),
+                  ));
             },
             child: const Text("pick image"),
           ),
