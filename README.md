@@ -3,7 +3,7 @@
 ### How to use
 
 // Select image
-
+```
 Future selectImage() async {
     final XFile? pickedFile = await _picker.pickImage(
         source: ImageSource
@@ -15,9 +15,9 @@ Future selectImage() async {
       image = File(pickedFile.path);
     });
   }
-
+```
 // Navigate ImageScreen
-
+```
 return Scaffold(
       appBar: AppBar(
         title: const Text('Welcome to Flutter'),
@@ -26,9 +26,7 @@ return Scaffold(
         children: [
           TextButton(
             onPressed: () async {
-              print(image);
               await selectImage();
-
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -43,3 +41,4 @@ return Scaffold(
         ],
       ),
     );
+ ```
