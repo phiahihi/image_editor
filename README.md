@@ -18,27 +18,17 @@ Future selectImage() async {
 ```
 // Navigate ImageScreen
 ```
-return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome to Flutter'),
-      ),
-      body: Column(
-        children: [
-          TextButton(
+TextButton(
             onPressed: () async {
-              await selectImage();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ImageScreen(
-                    image: image,
-                  ),
-                ),
-              );
+              await selectImage().then((value) => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ImageScreen(
+                        image: image,
+                      ),
+                    ),
+                  ));
             },
             child: const Text("pick image"),
           ),
-        ],
-      ),
-    );
  ```
