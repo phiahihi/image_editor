@@ -293,7 +293,7 @@ class _ImageScreenState extends State<ImageScreen> {
                           child: Row(children: const [
                             Text(
                               'Văn bản',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.white),
                             ),
                             SizedBox(
                               width: 8,
