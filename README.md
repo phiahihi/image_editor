@@ -11,8 +11,6 @@ Future selectImage() async {
     if (pickedFile == null) {
       return;
     }
-    //Checks if the user did actually pick something
-
     setState(() {
       image = File(pickedFile.path);
     });
