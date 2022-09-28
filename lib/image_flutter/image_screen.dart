@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:screenshot/screenshot.dart';
@@ -33,7 +34,7 @@ class _ImageScreenState extends State<ImageScreen> {
   double angle = 0.0;
 
   bool hideText = false;
-  Offset _offset = Offset.zero;
+  Offset _offset = const Offset(0, 300);
 
   double lastRotation = 0;
   late Offset _startingFocalPoint;
@@ -163,6 +164,7 @@ class _ImageScreenState extends State<ImageScreen> {
                               child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   mainAxisAlignment:
@@ -182,9 +184,20 @@ class _ImageScreenState extends State<ImageScreen> {
                                         });
                                       },
                                     ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.color_lens,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        _showColorPicker(context);
+                                      },
+                                    ),
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: Colors.blueAccent),
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 152, 169, 198),
+                                      ),
                                       child: const Text(
                                         'Xong',
                                         style: TextStyle(color: Colors.white),
@@ -197,31 +210,6 @@ class _ImageScreenState extends State<ImageScreen> {
                                       },
                                     ),
                                   ],
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: TextField(
-                                      controller: _text,
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'Type here...',
-                                        hintStyle: TextStyle(
-                                          color: Colors.white.withOpacity(0.3),
-                                        ),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 20,
-                                      minLines: 1,
-                                      style: TextStyle(
-                                        fontFamily: fontText ?? 'Avenir',
-                                        fontSize: 32,
-                                        color: Colors.white,
-                                        fontWeight: boldText
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                    ),
-                                  ),
                                 ),
                                 SizedBox(
                                   height: 50,
@@ -246,6 +234,38 @@ class _ImageScreenState extends State<ImageScreen> {
                           )),
                         ),
                       ),
+                    if (!writeText && !turnOffAllBtn)
+                      Positioned(
+                        top: _offset.dy,
+                        left: _offset.dx,
+                        child: Transform.rotate(
+                          angle: angle,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: TextField(
+                              controller: _text,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type here...',
+                                hintStyle: TextStyle(
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                              ),
+                              textAlign: TextAlign.center,
+                              maxLines: 20,
+                              minLines: 1,
+                              style: TextStyle(
+                                fontFamily: fontText ?? 'Avenir',
+                                fontSize: 32,
+                                color: pickerColor,
+                                fontWeight: boldText
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     if (writeText)
                       Positioned(
                         top: _offset.dy,
@@ -255,17 +275,21 @@ class _ImageScreenState extends State<ImageScreen> {
                             onScaleUpdate: _handleScaleUpdate,
                             child: Transform.rotate(
                                 angle: angle,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(32.0),
-                                  child: Text(
-                                    complete,
-                                    style: TextStyle(
-                                      fontFamily: fontText ?? 'Avenir',
-                                      fontSize: 32,
-                                      color: Colors.white,
-                                      fontWeight: boldText
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      complete,
+                                      style: TextStyle(
+                                        fontFamily: fontText ?? 'Avenir',
+                                        fontSize: 32,
+                                        color: pickerColor,
+                                        fontWeight: boldText
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ))),
@@ -320,9 +344,11 @@ class _ImageScreenState extends State<ImageScreen> {
                                       .capture()
                                       .then((capturedImage) async {
                                     showCapturedWidget(context, capturedImage!);
-                                  }).catchError((onError) {
-                                    print(onError);
-                                  });
+                                  }).catchError(
+                                    (onError) {
+                                      print(onError);
+                                    },
+                                  );
                                 },
                               ),
                               TextButton(
@@ -369,6 +395,41 @@ class _ImageScreenState extends State<ImageScreen> {
               color: index == value ? Colors.black : Colors.white),
         ),
       ),
+    );
+  }
+
+  Color pickerColor = Colors.white;
+  Color currentColor = Colors.white;
+
+  void changeColor(Color color) {
+    setState(
+      () => pickerColor = color,
+    );
+  }
+
+  Future _showColorPicker(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Pick a color!'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: pickerColor,
+              onColorChanged: changeColor,
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text('Got it'),
+              onPressed: () {
+                setState(() => currentColor = pickerColor);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

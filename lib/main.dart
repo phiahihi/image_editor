@@ -61,14 +61,16 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           TextButton(
             onPressed: () {
-              selectImage().then((value) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ImageScreen(
-                        image: image,
-                      ),
+              selectImage().then(
+                (value) => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageScreen(
+                      image: image,
                     ),
-                  ));
+                  ),
+                ),
+              );
             },
             child: const Text("pick image"),
           ),
