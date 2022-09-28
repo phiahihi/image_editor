@@ -4,8 +4,7 @@
 
 // Example
 
-https://user-images.githubusercontent.com/89730025/192221098-c1703e41-09d7-41a5-baf5-992920131c07.mp4
-
+https://user-images.githubusercontent.com/89730025/192686446-ea2841c8-657d-4780-8cc0-17d2ae05127b.mp4
 
 // Select image
 ```
@@ -56,4 +55,7 @@ image_picker: ^0.8.5+3
 image_cropper: ^3.0.0
 
 flutter_colorpicker: ^1.0.3
+
+
+
 
