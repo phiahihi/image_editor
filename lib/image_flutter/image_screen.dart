@@ -219,12 +219,15 @@ class _ImageScreenState extends State<ImageScreen> {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return _buildFonts(index, () {
-                                        setState(() {
-                                          value = index;
-                                          fontText = listFont[index];
-                                        });
-                                      });
+                                      return _buildFonts(
+                                          index: index,
+                                          onPressed: () {
+                                            setState(() {
+                                              value = index;
+                                              fontText = listFont[index];
+                                            });
+                                          },
+                                          font: listFont[index]);
                                     },
                                     itemCount: listFont.length,
                                   ),
@@ -379,7 +382,10 @@ class _ImageScreenState extends State<ImageScreen> {
     );
   }
 
-  Widget _buildFonts(int index, void Function()? onPressed) {
+  Widget _buildFonts(
+      {required int index,
+      required void Function()? onPressed,
+      required String font}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextButton(
@@ -391,7 +397,7 @@ class _ImageScreenState extends State<ImageScreen> {
         child: Text(
           'A a',
           style: TextStyle(
-              fontFamily: fontText,
+              fontFamily: font,
               color: index == value ? Colors.black : Colors.white),
         ),
       ),
