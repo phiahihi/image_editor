@@ -281,7 +281,8 @@ class _ImageScreenState extends State<ImageScreen> {
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 24),
                                     child: Text(
                                       complete,
                                       style: TextStyle(

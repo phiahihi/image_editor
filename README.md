@@ -25,20 +25,25 @@ Future selectImage() async {
 ```
 TextButton(
   onPressed: () {
-   selectImage().then(
-    (value) => Navigator.push(
-     context,
-      MaterialPageRoute(
-       builder: (context) => ImageScreen(
-       put your file here
-        image: image,
-             ),
-           ),
-        ),
-     );
-   },
-   child: const Text("pick image"),
-),
+    selectImage().then(
+        (value) {
+            if (image.path.isNotEmpty) {
+              Navigator.push(
+                context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageScreen(
+                      image: image,
+                      ),
+                    ),
+                  );
+                } else {
+                    return;
+                  }
+                },
+              );
+            },
+            child: const Text("pick image"),
+          ),
  ```
  ### Used packages include:
  
