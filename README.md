@@ -49,3 +49,6 @@ photo_view: ^0.14.0
 image_picker: ^0.8.5+3
 
 image_cropper: ^3.0.0
+
+flutter_colorpicker: ^1.0.3
+
